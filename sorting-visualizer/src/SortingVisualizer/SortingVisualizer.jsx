@@ -1,0 +1,44 @@
+import "./SortingVisualizer.css";
+import React from "react";
+
+export default class SortingVisualizer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      array: [],
+    };
+    this.resetArray = this.resetArray.bind(this); // Binding the method to use 'this' correctly
+  }
+
+  componentDidMount() {
+    this.resetArray(); // Ensuring method is called to initialize the array
+  }
+
+  resetArray() {
+    const array = [];
+    for (let i = 0; i < 100; i++) {
+      array.push(this.randomIntFromInterval(5, 1000)); // Ensure this function is defined
+    }
+    this.setState({ array }); // Correct the way to update the state
+  }
+
+  randomIntFromInterval(min, max) {
+    // Corrected function name and placement
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  render() {
+    const { array } = this.state;
+    return (
+      <>
+        {array.map((value, idx) => (
+          <div
+            className="array-bar"
+            key={idx}
+            style={{ height: `${value}px` }}
+          ></div>
+        ))}
+      </>
+    );
+  }
+}
