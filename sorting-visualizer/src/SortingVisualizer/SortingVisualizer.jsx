@@ -31,6 +31,7 @@ export default class SortingVisualizer extends React.Component {
     const { array } = this.state;
     return (
       <>
+        <h1>Test Sorting Visualizer</h1>
         {array.map((value, idx) => (
           <div
             className="array-bar"
