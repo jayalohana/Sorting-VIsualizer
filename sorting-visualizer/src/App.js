@@ -5,7 +5,6 @@ function App() {
   return (
     <div className="App">
       <SortingVisualizer></SortingVisualizer>
-      hello world
     </div>
   );
 }
