@@ -1,11 +1,17 @@
 .array-container {
+  display: flex;
+  justify-content: start;
+  align-items: flex-end;
+  height: 500px; /* Specify a height to see the bars */
+  background-color: #f4f4f4; /* Optional: for better visibility */
   position: absolute;
   left: 100px;
-  /* top: 100px; */
+  width: 100%; /* Adjust based on your specific layout needs */
 }
 
-/* .array-bar {
+.array-bar {
   width: 2px;
-  display: inline-block;
-  margin: 0 1px;
-} */
+  background-color: pink; /* Color for visibility */
+  margin-right: 1px;
+  vertical-align: bottom; /* Ensures alignment at the bottom */
+}
