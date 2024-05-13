@@ -1,17 +1,44 @@
+.outer-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers children horizontally */
+  width: 100%; /* Full width of the viewport */
+}
+
 .array-container {
   display: flex;
-  justify-content: start;
+  justify-content: center; /* Center the bars within the container */
   align-items: flex-end;
-  height: 500px; /* Specify a height to see the bars */
-  background-color: #f4f4f4; /* Optional: for better visibility */
-  position: absolute;
-  left: 100px;
-  width: 100%; /* Adjust based on your specific layout needs */
+  height: 500px;
+  background-color: #f4f4f4;
+  width: 90%; /* Adjust to control the width of the bar area */
+  margin: 0 auto; /* This centers the container horizontally */
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
 
 .array-bar {
   width: 2px;
-  background-color: pink; /* Color for visibility */
+  background-color: pink;
   margin-right: 1px;
-  vertical-align: bottom; /* Ensures alignment at the bottom */
+  vertical-align: bottom;
+}
+
+button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
 }
