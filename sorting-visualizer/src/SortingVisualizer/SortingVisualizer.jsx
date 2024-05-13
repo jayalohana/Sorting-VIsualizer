@@ -90,24 +90,14 @@ export default class SortingVisualizer extends React.Component {
   heapSort() {
     const animations = getHeapSortAnimations(this.state.array);
     for (let i = 0; i < animations.length; i++) {
+      const [barOneIdx, barTwoIdx, heightOne, heightTwo] = animations[i];
       const arrayBars = document.getElementsByClassName("array-bar");
-      const isColorChange = !(animations[i].length === 3 && animations[i][2]);
-      if (isColorChange) {
-        const [barOneIdx, barTwoIdx] = animations[i];
-        const barOneStyle = arrayBars[barOneIdx].style;
-        const barTwoStyle = arrayBars[barTwoIdx].style;
-        const color = i % 2 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
-        setTimeout(() => {
-          barOneStyle.backgroundColor = color;
-          barTwoStyle.backgroundColor = color;
-        }, i * ANIMATION_SPEED_MS);
-      } else {
-        setTimeout(() => {
-          const [barIdx, newHeight] = animations[i];
-          const barStyle = arrayBars[barIdx].style;
-          barStyle.height = `${newHeight}px`;
-        }, i * ANIMATION_SPEED_MS);
-      }
+      const barOneStyle = arrayBars[barOneIdx].style;
+      const barTwoStyle = arrayBars[barTwoIdx].style;
+      setTimeout(() => {
+        barOneStyle.height = `${heightTwo}px`;
+        barTwoStyle.height = `${heightOne}px`;
+      }, i * ANIMATION_SPEED_MS);
     }
   }
 

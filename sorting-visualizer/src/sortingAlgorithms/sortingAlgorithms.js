@@ -1,6 +1,14 @@
+// Utility function to swap elements in an array
+function swap(array, i, j) {
+  let temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+}
+
+// Function to get animations for Merge Sort
 export function getMergeSortAnimations(array) {
   const animations = [];
-  if (array.length <= 1) return array;
+  if (array.length <= 1) return animations;
   const auxiliaryArray = array.slice();
   mergeSortHelper(array, 0, array.length - 1, auxiliaryArray, animations);
   return animations;
@@ -32,50 +40,31 @@ function doMerge(
   let i = startIdx;
   let j = middleIdx + 1;
   while (i <= middleIdx && j <= endIdx) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
     animations.push([i, j]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
     animations.push([i, j]);
     if (auxiliaryArray[i] <= auxiliaryArray[j]) {
-      // We overwrite the value at index k in the original array with the
-      // value at index i in the auxiliary array.
       animations.push([k, auxiliaryArray[i]]);
       mainArray[k++] = auxiliaryArray[i++];
     } else {
-      // We overwrite the value at index k in the original array with the
-      // value at index j in the auxiliary array.
       animations.push([k, auxiliaryArray[j]]);
       mainArray[k++] = auxiliaryArray[j++];
     }
   }
   while (i <= middleIdx) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
     animations.push([i, i]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
     animations.push([i, i]);
-    // We overwrite the value at index k in the original array with the
-    // value at index i in the auxiliary array.
     animations.push([k, auxiliaryArray[i]]);
     mainArray[k++] = auxiliaryArray[i++];
   }
   while (j <= endIdx) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
     animations.push([j, j]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
     animations.push([j, j]);
-    // We overwrite the value at index k in the original array with the
-    // value at index j in the auxiliary array.
     animations.push([k, auxiliaryArray[j]]);
     mainArray[k++] = auxiliaryArray[j++];
   }
 }
 
+// Function to get animations for Quick Sort
 export function getQuickSortAnimations(array) {
   const animations = [];
   if (array.length <= 1) return animations;
@@ -95,42 +84,32 @@ function partition(array, startIdx, endIdx, animations) {
   const pivotValue = array[endIdx];
   let i = startIdx - 1;
   for (let j = startIdx; j < endIdx; j++) {
-    // These are the values that we're comparing; we push them once
-    // to change their color.
     animations.push([j, endIdx]);
-    // These are the values that we're comparing; we push them a second
-    // time to revert their color.
     animations.push([j, endIdx]);
     if (array[j] <= pivotValue) {
       i++;
-      // Swap elements at i and j
-      animations.push([i, array[j], true]); // We push true to indicate a swap
-      animations.push([j, array[i], true]); // We push true to indicate a swap
+      animations.push([i, array[j], true]);
+      animations.push([j, array[i], true]);
       swap(array, i, j);
     }
   }
-  // Swap elements at i+1 and endIdx (swap with pivot)
   animations.push([i + 1, array[endIdx], true]);
   animations.push([endIdx, array[i + 1], true]);
   swap(array, i + 1, endIdx);
   return i + 1;
 }
 
-function swap(array, i, j) {
-  let temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
-}
-
+// Function to get animations for Heap Sort
 export function getHeapSortAnimations(array) {
   const animations = [];
   buildMaxHeap(array, animations);
+  let size = array.length;
   for (let endIdx = array.length - 1; endIdx > 0; endIdx--) {
-    // Swap the root of the max heap with the last element
-    animations.push([0, array[endIdx], true]); // We push true to indicate a swap
-    animations.push([endIdx, array[0], true]); // We push true to indicate a swap
+    // Animate the swap between the root and the last element
+    animations.push([0, endIdx, array[endIdx], array[0]]);
     swap(array, 0, endIdx);
-    siftDown(array, 0, endIdx - 1, animations);
+    size--; // Reduce the size of the heap
+    siftDown(array, 0, size - 1, animations);
   }
   return animations;
 }
@@ -142,32 +121,25 @@ function buildMaxHeap(array, animations) {
   }
 }
 
-function siftDown(array, currentIdx, endIdx, animations) {
-  let childOneIdx = currentIdx * 2 + 1;
-  while (childOneIdx <= endIdx) {
-    const childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
-    let idxToSwap;
-    if (childTwoIdx !== -1 && array[childTwoIdx] > array[childOneIdx]) {
-      idxToSwap = childTwoIdx;
-    } else {
-      idxToSwap = childOneIdx;
+function siftDown(array, startIdx, endIdx, animations) {
+  let root = startIdx;
+  while (root * 2 + 1 <= endIdx) {
+    const leftChild = root * 2 + 1;
+    const rightChild = root * 2 + 2;
+    let swapIdx = root;
+
+    if (array[swapIdx] < array[leftChild]) {
+      swapIdx = leftChild;
     }
-    animations.push([currentIdx, idxToSwap]);
-    animations.push([currentIdx, idxToSwap]);
-    if (array[idxToSwap] > array[currentIdx]) {
-      animations.push([currentIdx, array[idxToSwap], true]);
-      animations.push([idxToSwap, array[currentIdx], true]);
-      swap(array, currentIdx, idxToSwap);
-      currentIdx = idxToSwap;
-      childOneIdx = currentIdx * 2 + 1;
+    if (rightChild <= endIdx && array[swapIdx] < array[rightChild]) {
+      swapIdx = rightChild;
+    }
+    if (swapIdx === root) {
+      return; // The root holds the largest element. As no swap needed, break.
     } else {
-      break;
+      animations.push([root, swapIdx, array[swapIdx], array[root]]);
+      swap(array, root, swapIdx);
+      root = swapIdx; // Continue sifting down the child now
     }
   }
-}
-
-function swap(array, i, j) {
-  let temp = array[i];
-  array[i] = array[j];
-  array[j] = temp;
 }
