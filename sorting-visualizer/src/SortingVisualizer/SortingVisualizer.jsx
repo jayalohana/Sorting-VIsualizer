@@ -21,6 +21,7 @@ export default class SortingVisualizer extends React.Component {
     }
     this.setState({ array }); // Correct the way to update the state
   }
+  //commit chnages
 
   randomIntFromInterval(min, max) {
     // Corrected function name and placement
@@ -52,4 +53,4 @@ export default class SortingVisualizer extends React.Component {
     );
   }
 }
-// changes
+// changes for commit
