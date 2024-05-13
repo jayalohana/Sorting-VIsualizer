@@ -3,6 +3,7 @@ import {
   getMergeSortAnimations,
   getQuickSortAnimations,
   getHeapSortAnimations,
+  getBubbleSortAnimations,
 } from "../sortingAlgorithms/sortingAlgorithms.js";
 import "./SortingVisualizer.css";
 
