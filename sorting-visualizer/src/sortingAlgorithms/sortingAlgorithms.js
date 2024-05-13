@@ -121,3 +121,53 @@ function swap(array, i, j) {
   array[i] = array[j];
   array[j] = temp;
 }
+
+export function getHeapSortAnimations(array) {
+  const animations = [];
+  buildMaxHeap(array, animations);
+  for (let endIdx = array.length - 1; endIdx > 0; endIdx--) {
+    // Swap the root of the max heap with the last element
+    animations.push([0, array[endIdx], true]); // We push true to indicate a swap
+    animations.push([endIdx, array[0], true]); // We push true to indicate a swap
+    swap(array, 0, endIdx);
+    siftDown(array, 0, endIdx - 1, animations);
+  }
+  return animations;
+}
+
+function buildMaxHeap(array, animations) {
+  const firstParentIdx = Math.floor((array.length - 2) / 2);
+  for (let currentIdx = firstParentIdx; currentIdx >= 0; currentIdx--) {
+    siftDown(array, currentIdx, array.length - 1, animations);
+  }
+}
+
+function siftDown(array, currentIdx, endIdx, animations) {
+  let childOneIdx = currentIdx * 2 + 1;
+  while (childOneIdx <= endIdx) {
+    const childTwoIdx = currentIdx * 2 + 2 <= endIdx ? currentIdx * 2 + 2 : -1;
+    let idxToSwap;
+    if (childTwoIdx !== -1 && array[childTwoIdx] > array[childOneIdx]) {
+      idxToSwap = childTwoIdx;
+    } else {
+      idxToSwap = childOneIdx;
+    }
+    animations.push([currentIdx, idxToSwap]);
+    animations.push([currentIdx, idxToSwap]);
+    if (array[idxToSwap] > array[currentIdx]) {
+      animations.push([currentIdx, array[idxToSwap], true]);
+      animations.push([idxToSwap, array[currentIdx], true]);
+      swap(array, currentIdx, idxToSwap);
+      currentIdx = idxToSwap;
+      childOneIdx = currentIdx * 2 + 1;
+    } else {
+      break;
+    }
+  }
+}
+
+function swap(array, i, j) {
+  let temp = array[i];
+  array[i] = array[j];
+  array[j] = temp;
+}
