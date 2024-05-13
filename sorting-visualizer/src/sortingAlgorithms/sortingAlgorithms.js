@@ -143,3 +143,29 @@ function siftDown(array, startIdx, endIdx, animations) {
     }
   }
 }
+
+export function getBubbleSortAnimations(array) {
+  const animations = [];
+  let isSorted = false;
+  let lastUnsorted = array.length - 1;
+  while (!isSorted) {
+    isSorted = true;
+    for (let i = 0; i < lastUnsorted; i++) {
+      // These are the values that we're comparing; we push them once
+      // to change their color.
+      animations.push([i, i + 1]);
+      // These are the values that we're comparing; we push them a second
+      // time to revert their color.
+      animations.push([i, i + 1]);
+      if (array[i] > array[i + 1]) {
+        // We swap the elements in the array
+        swap(array, i, i + 1);
+        // We push animations to move the heights of the bars.
+        animations.push([i, array[i], i + 1, array[i + 1]]);
+        isSorted = false;
+      }
+    }
+    lastUnsorted--;
+  }
+  return animations;
+}
