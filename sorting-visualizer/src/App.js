@@ -3,8 +3,10 @@ import SortingVisualizer from "./SortingVisualizer/SortingVisualizer";
 
 function App() {
   return (
-    <div className="App">
-      <SortingVisualizer></SortingVisualizer>
+    <div className="wrapper">
+      <div className="App">
+        <SortingVisualizer></SortingVisualizer>
+      </div>
     </div>
   );
 }

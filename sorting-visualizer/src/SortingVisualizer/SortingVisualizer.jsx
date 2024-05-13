@@ -104,11 +104,15 @@ export default class SortingVisualizer extends React.Component {
 
   bubbleSort() {
     const animations = getBubbleSortAnimations(this.state.array);
+    const arrayBars = document.getElementsByClassName("array-bar");
     for (let i = 0; i < animations.length; i++) {
-      const arrayBars = document.getElementsByClassName("array-bar");
       const isColorChange = i % 2 === 0;
       if (isColorChange) {
         const [barOneIdx, barTwoIdx] = animations[i];
+        if (barOneIdx >= arrayBars.length || barTwoIdx >= arrayBars.length) {
+          console.error("Index out of bounds: ", barOneIdx, barTwoIdx);
+          continue; // Skip this iteration to prevent errors
+        }
         const barOneStyle = arrayBars[barOneIdx].style;
         const barTwoStyle = arrayBars[barTwoIdx].style;
         const color = i % 4 === 0 ? SECONDARY_COLOR : PRIMARY_COLOR;
@@ -117,11 +121,15 @@ export default class SortingVisualizer extends React.Component {
           barTwoStyle.backgroundColor = color;
         }, i * ANIMATION_SPEED_MS);
       } else {
+        const [barOneIdx, newHeightOne, barTwoIdx, newHeightTwo] =
+          animations[i];
+        if (barOneIdx >= arrayBars.length || barTwoIdx >= arrayBars.length) {
+          console.error("Index out of bounds: ", barOneIdx, barTwoIdx);
+          continue; // Skip this iteration to prevent errors
+        }
+        const barOneStyle = arrayBars[barOneIdx].style;
+        const barTwoStyle = arrayBars[barTwoIdx].style;
         setTimeout(() => {
-          const [barOneIdx, newHeightOne, barTwoIdx, newHeightTwo] =
-            animations[i];
-          const barOneStyle = arrayBars[barOneIdx].style;
-          const barTwoStyle = arrayBars[barTwoIdx].style;
           barOneStyle.height = `${newHeightOne}px`;
           barTwoStyle.height = `${newHeightTwo}px`;
         }, i * ANIMATION_SPEED_MS);
