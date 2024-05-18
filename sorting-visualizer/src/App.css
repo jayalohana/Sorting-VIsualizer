@@ -19,11 +19,10 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-  /* display: block; */
 }
 
 .App-link {
   color: #09d3ac;
-  background-color: pink;
-  hover: #09d3ac;
 }
+
+/* dialy commit */
